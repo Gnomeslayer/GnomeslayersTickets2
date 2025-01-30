@@ -154,7 +154,7 @@ class ban_appeal_modal(Modal, title='Ban Appeal'):
             embed_links=True, attach_files=True)
 
         tickets = await self.database.get_all_tickets()
-        channel = await category.create_text_channel(f"General Ticket {len(tickets)}", overwrites=overwrites)
+        channel = await category.create_text_channel(f"Appeal Ticket {len(tickets)}", overwrites=overwrites)
         staff_channel = interaction.guild.get_channel(self.config['ticket_admin_settings']['admin_channel_id'])
 
         
@@ -244,7 +244,7 @@ class report_cheater_modal(Modal, title='Report a cheater'):
 
         tickets = await self.database.get_all_tickets()
 
-        channel = await category.create_text_channel(f"General Ticket {len(tickets)}", overwrites=overwrites)
+        channel = await category.create_text_channel(f"Report Ticket {len(tickets)}", overwrites=overwrites)
         staff_channel = interaction.guild.get_channel(self.config['ticket_admin_settings']['admin_channel_id'])
 
         
