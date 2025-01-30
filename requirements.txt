@@ -1,0 +1,7 @@
+discord
+aiohttp
+asyncio
+validators
+aiosqlite
+chat_exporter
+battlemetrics == 1.0.13

@@ -1,0 +1,3 @@
+This file is not used but it's required to ensure we have this folder for the HTML dumps.
+
+It would literally break the entire matrix if we deletes it.

@@ -1,0 +1,11 @@
+{
+  "tokens": {
+    "discord_token": "Discord Token Here",
+    "battlemetrics_token": "Battlemetrics Token Here",
+    "steam_token": "Steam Token Here"
+  },
+  "additional": {
+    "prefix": "This_is_here_because_we_don't_know_how_to_get_rid_of_it"
+  }
+}
+

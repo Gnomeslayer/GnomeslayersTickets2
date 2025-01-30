@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Auto Response 1",
+        "message": "Hello World"
+    },
+    {
+        "name": "Auto Response 2",
+        "message": "Hello world 2!"
+    }
+]

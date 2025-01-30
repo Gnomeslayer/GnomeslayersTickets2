@@ -1,0 +1,49 @@
+{
+    "auto_response": {
+        "footer_text": "Hello World!",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Auto Response Title"
+    },
+    "ticket_maker": {
+        "footer_text": "Ticket Maker",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Ticket Maker",
+        "description": [
+            "To make it easier to read in this file",
+            "It's in a list. You should use \n to make a new line!",
+            "No seriously. You Should!"
+        ]
+    },
+    "player_information": {
+        "footer_text": "Ticket Maker",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Ticket Maker"
+    },
+    "general_ticket": {
+        "footer_text": "Ticket Maker",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Ticket Maker"
+    },
+    "report_ticket": {
+        "footer_text": "Ticket Maker",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Ticket Maker"
+    },
+    "ban_appeal_ticket": {
+        "footer_text": "Ticket Maker",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Ticket Maker"
+    }
+}

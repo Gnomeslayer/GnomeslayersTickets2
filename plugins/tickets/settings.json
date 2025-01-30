@@ -1,0 +1,26 @@
+{
+    "ephemeral_response": true,
+
+    "ticket_admin_settings": {
+        "admin_channel_id": 1234,
+        "transcripts_channel_id": 1234,
+        "ticket_staff_roles": [
+        1234,
+        1234
+    ],
+        "ping_roles": [
+        1234,
+        1234
+        
+    ]
+    },    
+    "ticket_settings": {
+        "ticket_maker_channel": 1234,
+        "guild_id": 1234,
+        "separate_by_category": true,
+        "default_category": 1234,
+        "ban_appeal_category": 1234,
+        "general_category": 1234,
+        "report_category": 1234
+    }
+}
