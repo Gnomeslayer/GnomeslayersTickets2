@@ -144,13 +144,26 @@ class ban_appeal_modal(Modal, title='Ban Appeal'):
         overwrites = {interaction.guild.default_role: discord.PermissionOverwrite(view_channel=False, send_messages=False, read_message_history=False)}
         overwrites[interaction.user] = discord.PermissionOverwrite(view_channel=True, send_messages=True,read_messages=True,read_message_history=True, embed_links=True, attach_files=True)
         staff = None
-        for role_id in self.config['ticket_admin_settings']['ticket_staff_roles']:
+
+        for role_id in self.config['ticket_admin_settings']['ping_roles']:
             if staff:
                 staff += f",<@&{role_id}>"
             else:
                 staff = f"<@&{role_id}>"
-            role = interaction.guild.get_role(role_id)
+            
+            if role_id not in self.config['ticket_admin_settings']['ticket_staff_roles']:
+                self.config['ticket_admin_settings']['ticket_staff_roles'].append(role_id)
 
+        for role_id in self.config['ticket_admin_settings']['ticket_staff_roles']:
+            try:
+                role = interaction.guild.get_role(role_id)
+            except Exception as e:
+                print(f"[Issue] Role: {role_id} doesn't exist..")
+                continue
+            
+            if not role:
+                print(f"Role: {role_id} doesn't exist..")
+                continue
             overwrites[role] = discord.PermissionOverwrite(use_application_commands=True,
             view_channel=True, send_messages=True,
             read_messages=True, read_message_history=True,
@@ -236,13 +249,26 @@ class report_cheater_modal(Modal, title='Report a cheater'):
         overwrites = {interaction.guild.default_role: discord.PermissionOverwrite(view_channel=False, send_messages=False, read_message_history=False)}
         overwrites[interaction.user] = discord.PermissionOverwrite(view_channel=True, send_messages=True,read_messages=True,read_message_history=True, embed_links=True, attach_files=True)
         staff = None
-        for role_id in self.config['ticket_admin_settings']['ticket_staff_roles']:
+
+        for role_id in self.config['ticket_admin_settings']['ping_roles']:
             if staff:
                 staff += f",<@&{role_id}>"
             else:
                 staff = f"<@&{role_id}>"
-            role = interaction.guild.get_role(role_id)
+            
+            if role_id not in self.config['ticket_admin_settings']['ticket_staff_roles']:
+                self.config['ticket_admin_settings']['ticket_staff_roles'].append(role_id)
 
+        for role_id in self.config['ticket_admin_settings']['ticket_staff_roles']:
+            try:
+                role = interaction.guild.get_role(role_id)
+            except Exception as e:
+                print(f"[Issue] Role: {role_id} doesn't exist..")
+                continue
+            
+            if not role:
+                print(f"Role: {role_id} doesn't exist..")
+                continue
             overwrites[role] = discord.PermissionOverwrite(use_application_commands=True,
             view_channel=True, send_messages=True,
             read_messages=True, read_message_history=True,
