@@ -95,3 +95,19 @@ class tickets_embeds():
         embed.set_footer(text=embed_settings['footer_text'], icon_url=embed_settings['footer_image'])
 
         return embed
+    
+
+    async def ticket_transcript_embed(self, ticket_number, creator, creators_steam, closed_by):
+        embed_settings = self.config_embed_settings['transcripts']
+        embed = Embed(title="Ticket Transcript", description="A transcript has been generated for a closed ticket.", color=int(embed_settings['color'], base=16))
+
+        embed.add_field(name="Ticket Number", value=ticket_number, inline=False)
+        embed.add_field(name="Ticket Creator", value=f"{creator.mention}", inline=False)
+        embed.add_field(name="Creator's SteamID/Profile", value=creators_steam, inline=False)
+        embed.add_field(name="Creator's Discord ID", value=creator.id, inline=False)
+
+        embed.add_field(name="Closed By", value=creator.mention, inline=False)
+
+        embed.set_footer(text=embed_settings['footer_text'], icon_url=embed_settings['footer_image'])
+
+        return embed

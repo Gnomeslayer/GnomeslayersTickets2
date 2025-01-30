@@ -87,6 +87,9 @@ class general_modal(Modal, title='General Ticket'):
         general_embed.title = f"{channel.name}"
 
         buttons = PersistentViewButtons(self.config)
+        buttons.creator = interaction.user
+        buttons.creator_steam = steam
+        buttons.ticket_number = len(tickets)+1
         await self.database.add_ticket(ticket_number=len(tickets)+1, ticket_type="General", creater_discord_id=interaction.user.id, active_ticket=True, channel_id=channel.id)
 
         await channel.send(view=buttons, embed=general_embed, content=staff)
@@ -162,6 +165,9 @@ class ban_appeal_modal(Modal, title='Ban Appeal'):
         ban_appeal_embed.title = f"{channel.name}"
 
         buttons = PersistentViewButtons(self.config)
+        buttons.creator = interaction.user
+        buttons.creator_steam = steam
+        buttons.ticket_number = len(tickets)+1
 
         await self.database.add_ticket(ticket_number=len(tickets)+1, ticket_type="Ban Appeal", creater_discord_id=interaction.user.id, active_ticket=True, channel_id=channel.id)
         
@@ -252,6 +258,9 @@ class report_cheater_modal(Modal, title='Report a cheater'):
         report_embed.title = f"{channel.name}"
 
         buttons = PersistentViewButtons(self.config)
+        buttons.creator = interaction.user
+        buttons.creator_steam = creater_steam
+        buttons.ticket_number = len(tickets)+1
         await self.database.add_ticket(ticket_number=len(tickets)+1, ticket_type="Report", creater_discord_id=interaction.user.id, active_ticket=True, channel_id=channel.id)
         await channel.send(view=buttons,embed=report_embed, content=staff)
         await channel.send(f"Thank you {interaction.user.mention} for making a ticket, a staff member will be with you as soon as they have time. Please include any additional details.")

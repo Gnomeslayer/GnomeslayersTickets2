@@ -1,4 +1,5 @@
 from plugins.tickets.supportfiles.database import tickets_database
+from plugins.tickets.supportfiles.embeds import tickets_embeds
 
 from discord.ui import View,Button,button
 from discord import ButtonStyle, Interaction
@@ -12,10 +13,13 @@ class PersistentViewButtons(View):
         super().__init__(timeout=None)
         self.database = tickets_database()
         self.config = config
+        self.embed_factory = tickets_embeds(config=config)
+        self.ticket_number = 0
+        self.creator_steam = None
+        self.creator = None
 
     @button(label='Close', style=ButtonStyle.green, custom_id='persistent_view:green')
     async def green(self, interaction: Interaction, button: Button):
-        print("This was pressed..")
         user_roles = interaction.user.roles
         allowed_roles = self.config['ticket_admin_settings']['ticket_staff_roles']
 
@@ -43,8 +47,10 @@ class PersistentViewButtons(View):
         except Exception as e:
             print(f"There was an error creating the transcript.\n {e}")
         
+        embed = await self.embed_factory.ticket_transcript_embed(ticket_number=self.ticket_number, creator=self.creator, creators_steam=self.creator_steam, closed_by=interaction.user)
+
         await transcripts_channel.send(
-                content=f"Application transcript log for (Channel ID: {interaction.channel.id})",
+                embed=embed,
                 file=discord.File(file_path, filename=f"./logs/html/transcript_{interaction.channel.name}.html")
             )
         

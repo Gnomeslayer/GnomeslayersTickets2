@@ -45,5 +45,12 @@
         "color": "0x1abc9c",
         "thumbnail_image": "",
         "title": "Ticket Maker"
+    },
+    "transcripts": {
+        "footer_text": "Ticket Maker",
+        "footer_image": "",
+        "color": "0x1abc9c",
+        "thumbnail_image": "",
+        "title": "Ticket Maker"
     }
 }
