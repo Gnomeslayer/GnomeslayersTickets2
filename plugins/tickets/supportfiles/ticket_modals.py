@@ -6,7 +6,7 @@ from plugins.tickets.supportfiles.embeds import tickets_embeds
 import discord
 
 from plugins.tickets.supportfiles.database import tickets_database
-from plugins.tickets.supportfiles.buttons import PersistentViewButtons
+from plugins.tickets.supportfiles.buttons import CloseButtons
 
 class general_modal(Modal, title='General Ticket'):
     def __init__(self, config:dict, tokens):
@@ -86,7 +86,7 @@ class general_modal(Modal, title='General Ticket'):
         general_embed = await self.embed_factory.general_embed(steamid=steam, issue=issue)
         general_embed.title = f"{channel.name}"
 
-        buttons = PersistentViewButtons(self.config)
+        buttons = CloseButtons(self.config)
         buttons.creator = interaction.user
         buttons.creator_steam = steam
         buttons.ticket_number = len(tickets)+1
@@ -177,7 +177,7 @@ class ban_appeal_modal(Modal, title='Ban Appeal'):
         ban_appeal_embed = await self.embed_factory.ban_appeal_embed(steamid=steam,reason=reason)
         ban_appeal_embed.title = f"{channel.name}"
 
-        buttons = PersistentViewButtons(self.config)
+        buttons = CloseButtons(self.config)
         buttons.creator = interaction.user
         buttons.creator_steam = steam
         buttons.ticket_number = len(tickets)+1
@@ -225,6 +225,7 @@ class report_cheater_modal(Modal, title='Report a cheater'):
     )
     async def on_submit(self, interaction: Interaction):
         #self.config = dict(self.config[0])
+        await interaction.response.defer(ephemeral=True)
         creater_steam = self.creater_steam.value
         cheater_steam = self.cheater_steam.value
         information = self.information.value
@@ -235,16 +236,16 @@ class report_cheater_modal(Modal, title='Report a cheater'):
             try:
                 await interaction.user.send("Please enter a valid steam ID or steam URL!")
             except:
-                message = await interaction.channel.send(content=f"{interaction.user.mention} - Please enter a valid steam ID or steam URL!")
+                message:discord.Message = await interaction.followup.send(content=f"{interaction.user.mention} - Please enter a valid steam ID or steam URL!")
                 await message.delete(delay=5)
             return
         
         await interaction.followup.send("Generating ticket now.", ephemeral=True)
 
         if self.config['ticket_settings']['separate_by_category']:
-            category:discord.CategoryChannel = interaction.guild.get_channel(channel_id=self.config['ticket_settings']['report_category'])
+            category:discord.CategoryChannel = interaction.guild.get_channel(self.config['ticket_settings']['report_category'])
         else:
-            category:discord.CategoryChannel = interaction.guild.get_channel(channel_id=self.config['ticket_settings']['default_category'])
+            category:discord.CategoryChannel = interaction.guild.get_channel(self.config['ticket_settings']['default_category'])
 
         overwrites = {interaction.guild.default_role: discord.PermissionOverwrite(view_channel=False, send_messages=False, read_message_history=False)}
         overwrites[interaction.user] = discord.PermissionOverwrite(view_channel=True, send_messages=True,read_messages=True,read_message_history=True, embed_links=True, attach_files=True)
@@ -283,7 +284,7 @@ class report_cheater_modal(Modal, title='Report a cheater'):
         report_embed = await self.embed_factory.report_embed(maker_steamid=creater_steam,cheater_steamid=cheater_steam,info=information,proof=proof)
         report_embed.title = f"{channel.name}"
 
-        buttons = PersistentViewButtons(self.config)
+        buttons = CloseButtons(self.config)
         buttons.creator = interaction.user
         buttons.creator_steam = creater_steam
         buttons.ticket_number = len(tickets)+1

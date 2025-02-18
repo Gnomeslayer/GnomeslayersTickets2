@@ -6,7 +6,7 @@ from discord import app_commands, Interaction
 from discord.app_commands import guild_only, Choice
 
 from plugins.tickets.supportfiles.embeds import tickets_embeds
-from plugins.tickets.supportfiles.buttons import PersistentViewButtons 
+from plugins.tickets.supportfiles.buttons import CloseButtons 
 from plugins.tickets.supportfiles.functions import ticket_functions
 
 class tickets_commands(Cog):
@@ -30,7 +30,7 @@ class tickets_commands(Cog):
     async def cog_load(self):
         self.config['steam_token'] = self.tokens['tokens']['steam_token']
         self.embed_factory = tickets_embeds(config=self.config)
-        self.bot.add_view(PersistentViewButtons(self.config))
+        self.bot.add_view(CloseButtons(self.config))
         self.functions = ticket_functions(config=self.config, tokens=self.tokens)
     
     #Autocompletes inputs for premade responses

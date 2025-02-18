@@ -8,7 +8,7 @@ import os
 import asyncio
 import discord
 
-class PersistentViewButtons(View):
+class CloseButtons(View):
     def __init__(self, config):
         super().__init__(timeout=None)
         self.database = tickets_database()
@@ -20,6 +20,7 @@ class PersistentViewButtons(View):
 
     @button(label='Close', style=ButtonStyle.green, custom_id='persistent_view:green')
     async def green(self, interaction: Interaction, button: Button):
+        await interaction.response.defer(ephemeral=True)
         user_roles = interaction.user.roles
         allowed_roles = self.config['ticket_admin_settings']['ticket_staff_roles']
 
@@ -33,9 +34,8 @@ class PersistentViewButtons(View):
         if not allowed_to_press:
             return
         
+        await interaction.followup.send("Deleting channel in 3 seconds.")
         
-        
-        await self.database.update_ticket_status(channel_id=interaction.channel.id)
         transcript = await chat_exporter.export(interaction.channel)
         transcripts_channel = interaction.guild.get_channel(self.config['ticket_admin_settings']['transcripts_channel_id'])
         
@@ -47,6 +47,10 @@ class PersistentViewButtons(View):
         except Exception as e:
             print(f"There was an error creating the transcript.\n {e}")
         
+        if not self.creator:
+            creator_discord_id = await self.database.get_active_ticket_by_channel(channel_id=interaction.channel.id)
+            self.creator = interaction.guild.get_member(int(creator_discord_id['creater_discord_id']))
+
         embed = await self.embed_factory.ticket_transcript_embed(ticket_number=self.ticket_number, creator=self.creator, creators_steam=self.creator_steam, closed_by=interaction.user)
 
         await transcripts_channel.send(
@@ -54,9 +58,10 @@ class PersistentViewButtons(View):
                 file=discord.File(file_path, filename=f"./logs/html/transcript_{interaction.channel.name}.html")
             )
         
-        await interaction.response.send_message("Deleting channel in 3 seconds.")
+        
         await asyncio.sleep(3) #This is in seconds right?
         await interaction.channel.delete()
+        await self.database.update_ticket_status(channel_id=interaction.channel.id)
         
         os.remove(file_path)
         

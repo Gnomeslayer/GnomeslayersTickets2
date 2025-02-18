@@ -37,7 +37,7 @@ class dropdown_menu_setup(discord.ui.Select):
         elif selected_option == "ban appeal":
             modal = modal_manager.ban_appeal_modal(config=self.config, tokens=self.tokens)
             await interaction.response.send_modal(modal)
-        elif selected_option == "report a player":
+        elif selected_option == "report a cheater":
             modal = modal_manager.report_cheater_modal(config=self.config, tokens=self.tokens)
             await interaction.response.send_modal(modal)
         else:

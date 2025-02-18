@@ -86,3 +86,25 @@ class tickets_database():
                     }
         
         return ticket
+    
+    async def get_active_ticket_by_channel(self, channel_id:str) -> dict:
+        active = True
+        query = f"SELECT * FROM tickets where channel_id = :channel_id and active_ticket = {active}"
+        params = {'channel_id': channel_id}
+
+        ticket = {}
+        async with aiosqlite.connect(self.database_location) as db:
+            async with db.execute(query, params) as cursor:
+                response = await cursor.fetchone()
+                if response:
+                    ticket = {
+                    'ticket_number': response[1],
+                    'ticket_type': response[2],
+                    'creater_discord_id': response[3],
+                    'active_ticket': response[4],
+                    'channel_id': response[5]
+                    }
+                else:
+                    print("None")
+        
+        return ticket
