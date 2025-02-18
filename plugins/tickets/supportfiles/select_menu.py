@@ -5,7 +5,7 @@ import json
 
 from plugins.tickets.supportfiles.database import tickets_database
 
-class dropdown_menu_setup(discord.ui.Select):
+class select_menu_setup(discord.ui.Select):
     def __init__(self, options, config, tokens):
         self.config = config
         self.tokens = tokens
@@ -22,7 +22,7 @@ class dropdown_menu_setup(discord.ui.Select):
 
         #Reset the menu
         options=self.load_options_from_json()
-        await interaction.message.edit(view=dropdown_menu_view(config=self.config, tokens=self.tokens,options=options))
+        await interaction.message.edit(view=select_menu_view(config=self.config, tokens=self.tokens,options=options))
         
         #Check to see if the user has an active ticket already.
         active_ticket = await self.database.get_active_ticket_for_user(interaction.user.id)
@@ -48,7 +48,7 @@ class dropdown_menu_setup(discord.ui.Select):
             select_menu_options = json.load(f)
         return [discord.SelectOption(label=option["label"], emoji=option['emoji'], description=option["description"]) for option in select_menu_options]
 
-class dropdown_menu_view(discord.ui.View):
+class select_menu_view(discord.ui.View):
     def __init__(self, *, timeout = None, options, config, tokens):
         super().__init__(timeout=timeout)
-        self.add_item(dropdown_menu_setup(options, config, tokens))
+        self.add_item(select_menu_setup(options, config, tokens))

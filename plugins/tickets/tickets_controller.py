@@ -4,7 +4,7 @@ import discord
 from discord.ext.commands import Bot, Cog
 
 from plugins.tickets.supportfiles.embeds import tickets_embeds
-from plugins.tickets.supportfiles.dropdown_menu import dropdown_menu_view
+from plugins.tickets.supportfiles.select_menu import select_menu_view
 from plugins.tickets.supportfiles.functions import ticket_functions
 
 
@@ -38,7 +38,7 @@ class tickets_controller(Cog):
         embed = await self.embed_factory.ticket_maker()
         options = self.load_options_from_json()
 
-        menu = dropdown_menu_view(options=options,config=self.config, tokens=self.tokens)
+        menu = select_menu_view(options=options,config=self.config, tokens=self.tokens)
         self.bot.add_view(menu)
         if send_maker:
             await channel.send(embed=embed, view=menu)
